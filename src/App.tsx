@@ -5,6 +5,7 @@ import SearchBar from "./components/Home/SearchBar";
 import SpaceXLaunches from "./components/Home/SpaceXLaunches";
 import Title from "./components/Home/Title";
 import { useSpaceXLaunches } from "./hooks/useLaunchData";
+import ShowIncoming from "./components/Home/ShowIncoming";
 
 const App: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -40,12 +41,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (queryData.length > 0) {
       const booleanSelectedStatus = selectedStatus === "true";
-
-      // Filter the queryData based on the boolean value
       const filter = queryData.filter(ls => ls.launch_success === booleanSelectedStatus);
-      
-      console.log(filter.length);
-      console.log(booleanSelectedStatus); // This will be a boolean value
       setSearchResults(filter);
     } else {
       fetch(`https://api.spacexdata.com/v3/launches?launch_success=${selectedStatus}`)
@@ -63,6 +59,13 @@ const App: React.FC = () => {
   
   console.log(queryData);
 
+  // upcoming 
+const  handleUpcoming=()=>{
+  const upcoming = launches.filter(launch => launch.upcoming === true);
+  console.log(upcoming);
+
+  setSearchResults(upcoming)
+}
   return (
     <div className="p-4 min-h-screen">
       <Title />
@@ -92,6 +95,7 @@ const App: React.FC = () => {
           loading={loading}
           searchResults={searchResults}
         />
+        <ShowIncoming handleUpcoming={handleUpcoming} />
         <DropDown />
         <LaunchStatusDropdown
           handleStatusChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
