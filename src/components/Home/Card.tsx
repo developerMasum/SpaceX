@@ -7,7 +7,7 @@ const Card = ({launch}) => {
         key={launch.flight_number}
       >
         <img
-          src={launch.links.mission_patch}
+          src={launch?.links?.mission_patch}
           alt={`Mission photo for ${launch.mission_name}`}
           className="mb-4 max-h-36 w-full object-contain"
         />

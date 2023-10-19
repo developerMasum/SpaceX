@@ -16,6 +16,14 @@ const App: React.FC = () => {
 
   const { launches } = useSpaceXLaunches();
 
+  // upcoming
+  const handleUpcoming = () => {
+    console.log('clicked');
+    const upcoming = launches.filter((launch) => launch?.upcoming === true);
+    console.log(upcoming);
+    setSearchResults(upcoming);
+  };
+
   useEffect(() => {
     setLoading(true);
     setSearchResults([]);
@@ -27,8 +35,9 @@ const App: React.FC = () => {
       fetch(`https://api.spacexdata.com/v3/launches?rocket_name=${searchQuery}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           setSearchResults(data);
-          setQueryData(data)
+          setQueryData(data);
           setLoading(false);
         })
         .catch((error) => {
@@ -36,12 +45,12 @@ const App: React.FC = () => {
           setLoading(false);
         });
     }
-  }, [searchQuery]);
+  }, [searchQuery, launches]);
 
   useEffect(() => {
     if (queryData.length > 0) {
       const booleanSelectedStatus = selectedStatus === "true";
-      const filter = queryData.filter(ls => ls.launch_success === booleanSelectedStatus);
+      const filter = queryData.filter((ls) => ls.launch_success === booleanSelectedStatus);
       setSearchResults(filter);
     } else {
       fetch(`https://api.spacexdata.com/v3/launches?launch_success=${selectedStatus}`)
@@ -55,17 +64,8 @@ const App: React.FC = () => {
           setLoading(false);
         });
     }
-  }, [ selectedStatus]);
-  
-  console.log(queryData);
+  }, [selectedStatus, queryData]);
 
-  // upcoming 
-const  handleUpcoming=()=>{
-  const upcoming = launches.filter(launch => launch.upcoming === true);
-  console.log(upcoming);
-
-  setSearchResults(upcoming)
-}
   return (
     <div className="p-4 min-h-screen">
       <Title />
