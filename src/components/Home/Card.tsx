@@ -24,6 +24,9 @@ const Card = ({launch}) => {
         <p className="text-gray-700 text-lg font-bold">
           {launch.rocket_id}
         </p>
+        <p className="text-gray-700 text-lg font-bold">
+          {launch.rocket.rocket_name}
+        </p>
 
         <p className="text-gray-700 text-center">
           <span className="text-lg">Launch Status: </span>

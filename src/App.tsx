@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import LaunchStatusDropdown from "./StatusDropDown";
 import DropDown from "./components/Home/Dropdown";
 import SearchBar from "./components/Home/SearchBar";
@@ -15,12 +16,22 @@ const App: React.FC = () => {
   const [queryData, setQueryData] = useState<any[]>([]);
 
   const { launches } = useSpaceXLaunches();
+  console.log(launches);
 
-  // upcoming
+  const cardsPerPage = 9;
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected);
+  };
+
+  const startIndex = currentPage * cardsPerPage;
+  const endIndex = startIndex + cardsPerPage;
+  const cardsToDisplay = searchResults.slice(startIndex, endIndex);
+  const pageCount = Math.ceil(searchResults.length / cardsPerPage);
+
   const handleUpcoming = () => {
-    console.log('clicked');
     const upcoming = launches.filter((launch) => launch?.upcoming === true);
-    console.log(upcoming);
     setSearchResults(upcoming);
   };
 
@@ -35,7 +46,6 @@ const App: React.FC = () => {
       fetch(`https://api.spacexdata.com/v3/launches?rocket_name=${searchQuery}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setSearchResults(data);
           setQueryData(data);
           setLoading(false);
@@ -106,12 +116,37 @@ const App: React.FC = () => {
         />
       </div>
       {loading ? (
-        // Render a loading indicator here
         <div>Loading...</div>
       ) : (
-        <SpaceXLaunches launches={searchQuery === "" && selectedStatus === "" ? launches : searchResults} />
+        <SpaceXLaunches launches={cardsToDisplay} />
       )}
+
+
+  {searchResults.length > 9 && (
+    <div className="pagination-container flex justify-center mt-8 mb-24 text-4xl">
+      <ReactPaginate
+        previousLabel={"<"}
+        nextLabel={">"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={"pagination-vertical"}
+        // containerClassName={"pagination"}
+        // subContainerClassName={"pages pagination"}
+        activeClassName={""}
+        activeLinkClassName={"text-sm px-2 py-1 rounded-md bg-red-300 hover:bg-gray-400"}
+        previousLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover.bg-gray-400"
+        nextLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
+        breakLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
+        pageLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
+      />
     </div>
+  )}
+</div>
+
+
   );
 };
 
