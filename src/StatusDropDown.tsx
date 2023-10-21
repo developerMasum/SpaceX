@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
 
-const LaunchStatusDropdown: React.FC = ({handleStatusChange,selectedStatus}) => {
- 
 
+interface LaunchStatusDropdownProps {
+  handleStatusChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  selectedStatus: string;
+}
+
+const LaunchStatusDropdown: React.FC<LaunchStatusDropdownProps> = ({ handleStatusChange, selectedStatus }) => {
   return (
     <div className="mt-4">
       <select

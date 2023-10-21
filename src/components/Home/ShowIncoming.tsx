@@ -1,6 +1,10 @@
+import React from 'react';
 
+interface ShowIncomingProps {
+  handleUpcoming: () => void;
+}
 
-const ShowIncoming = ({handleUpcoming}) => {
+const ShowIncoming: React.FC<ShowIncomingProps> = ({ handleUpcoming }) => {
   return (
     <div>
       <p>

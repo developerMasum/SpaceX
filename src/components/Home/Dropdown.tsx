@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
+interface LaunchData {
+  // Define the structure of each launch item here
+  flight_number: number;
+  // Add other properties as needed
+}
+
 const DropDown: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string>(''); // State to hold the selected option
-  const [launchData, setLaunchData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [launchData, setLaunchData] = useState<LaunchData[]>([]); // Specify the type of launchData
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
@@ -15,7 +21,7 @@ const DropDown: React.FC = () => {
       const today = new Date();
       fetch(`https://api.spacexdata.com/v3/launches`)
         .then((response) => response.json())
-        .then((data) => {
+        .then((data: LaunchData[]) => { // Use the LaunchData type
           const formattedData = data.filter((launch) => {
             const launchDate = new Date(launch.launch_date_utc);
             if (selectedOption === "last_month") {
@@ -27,7 +33,7 @@ const DropDown: React.FC = () => {
               oneWeekAgo.setDate(today.getDate() - 7);
               return launchDate > oneWeekAgo;
             }
-            return true; // Default option
+            return true;
           });
           setLaunchData(formattedData);
           console.log(formattedData);
@@ -48,27 +54,12 @@ const DropDown: React.FC = () => {
         className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 w-48"
       >
         <option value="" disabled>
-         By Launch Date
+          By Launch Date
         </option>
         <option value="last_month">Last Month</option>
         <option value="last_year">Last Year</option>
         <option value="last_week">Last Week</option>
       </select>
-
-      {/* {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          {launchData.map((launch) => (
-            <div key={launch.flight_number}>
-              <p>Flight Number: {launch.flight_number}</p>
-              <p>Launch Date: {launch.launch_date_utc}</p>
-            
-              <hr />
-            </div>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };
