@@ -48,14 +48,14 @@ const DropDown: React.FC = () => {
         className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 w-48"
       >
         <option value="" disabled>
-          Select an option
+         By Launch Date
         </option>
         <option value="last_month">Last Month</option>
         <option value="last_year">Last Year</option>
         <option value="last_week">Last Week</option>
       </select>
 
-      {loading ? (
+      {/* {loading ? (
         <p>Loading...</p>
       ) : (
         <div>
@@ -63,12 +63,12 @@ const DropDown: React.FC = () => {
             <div key={launch.flight_number}>
               <p>Flight Number: {launch.flight_number}</p>
               <p>Launch Date: {launch.launch_date_utc}</p>
-              {/* Add other properties as needed */}
+            
               <hr />
             </div>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

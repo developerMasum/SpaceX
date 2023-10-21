@@ -12,7 +12,7 @@ const LaunchStatusDropdown: React.FC = ({handleStatusChange,selectedStatus}) => 
         className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 w-48"
       >
         <option value="" disabled>
-          Select a status
+          By Launch Status
         </option>
         <option value="true">Success</option>
         <option value="false">Failure</option>

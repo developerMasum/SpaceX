@@ -79,7 +79,7 @@ const App: React.FC = () => {
   return (
     <div className="p-4 min-h-screen">
       <Title />
-      <div className="flex justify-around mb-10">
+      <div className="flex flex-col items-center mb-10 md:flex-row lg:flex-row md:justify-evenly lg:justify-evenly">
         <SearchBar
           handleSearch={() => {
             setLoading(true);
@@ -105,8 +105,8 @@ const App: React.FC = () => {
           loading={loading}
           searchResults={searchResults}
         />
-        <ShowIncoming handleUpcoming={handleUpcoming} />
-        <DropDown />
+   
+    
         <LaunchStatusDropdown
           handleStatusChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
             const newSelectedStatus = event.target.value;
@@ -114,6 +114,11 @@ const App: React.FC = () => {
           }}
           selectedStatus={selectedStatus}
         />
+ <div className="flex flex-col mb-0 sm:mt-3">
+ <ShowIncoming handleUpcoming={handleUpcoming} />
+ <DropDown />
+  
+  </div>            
       </div>
       {loading ? (
         <div>Loading...</div>
@@ -122,28 +127,28 @@ const App: React.FC = () => {
       )}
 
 
-  {searchResults.length > 9 && (
-    <div className="pagination-container flex justify-center mt-8 mb-24 text-4xl">
-      <ReactPaginate
-        previousLabel={"<"}
-        nextLabel={">"}
-        breakLabel={"..."}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName={"pagination-vertical"}
-        // containerClassName={"pagination"}
-        // subContainerClassName={"pages pagination"}
-        activeClassName={""}
-        activeLinkClassName={"text-sm px-2 py-1 rounded-md bg-red-300 hover:bg-gray-400"}
-        previousLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover.bg-gray-400"
-        nextLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
-        breakLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
-        pageLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
-      />
-    </div>
-  )}
+{searchResults.length > 9 && (
+  <div className=" flex justify-center text-4xl flex-row">
+    <ReactPaginate
+      previousLabel={"<"}
+      nextLabel={">"}
+      breakLabel={"..."}
+      pageCount={pageCount}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={5}
+      onPageChange={handlePageChange}
+      containerClassName={"pagination"}
+      activeClassName={""}
+      activeLinkClassName={"text-sm px-2 py-1 rounded-md bg-red-300 hover:bg-gray-400"}
+      previousLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover.bg-gray-400"
+      nextLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
+      breakLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
+      pageLinkClassName="text-sm px-2 py-1 rounded-md bg-gray-300 hover:bg-gray-400"
+    />
+  </div>
+)}
+
+
 </div>
 
 
